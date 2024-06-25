@@ -16,14 +16,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '18'
 
       - name: Install EB CLI
         run: |
           sudo apt-get update
           sudo apt-get install python3-pip -y
           pip3 install --user awsebcli
-          export PATH=$PATH:$HOME/.local/bin
+          export PATH=$HOME/.local/bin:$PATH
 
       - name: Install dependencies
         run: npm install
@@ -33,7 +33,7 @@ jobs:
 
       - name: Deploy to Elastic Beanstalk
         run: |
-          eb deploy angular-app-env --region us-east-1
+          ~/.local/bin/eb deploy angular-app-env --region us-east-1
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
